@@ -1,21 +1,27 @@
+//variables to select DOM elements from HTML
 const conatinerEl = document.querySelector(".container");
 const seatsEl = document.querySelectorAll(".row .seat:not(.occupied)");
 const countEl = document.querySelector("#count");
 const totalEl = document.querySelector("#total");
 const movieSelectEl = document.querySelector("#movie");
 
+//function to populate UI elements seats selected, ticket count, and total
 populateUI();
 
+//parsing the value of the option in the HTML for ticket price
 let ticketPrice = parseInt(movieSelectEl.value);
 
 //save selected movie index and price
 function setMovieData(movieIndex, moviePrice) {
+  //setting local storage with movie index
   localStorage.setItem("selectedMovieIndex", movieIndex);
+  //setting local storage with corresponding movie price
   localStorage.setItem("selectedMoviePrice", moviePrice);
 }
 
 //update total and count
 function updateSelectedCount() {
+  //
   const selectedSeats = document.querySelectorAll(".row .seat.selected");
 
   //copy selected seats into an array
@@ -38,17 +44,21 @@ function updateSelectedCount() {
 
 //get data from localStorage and populate the UI accordingly
 function populateUI() {
+  //parsing out the array of selected seats from local storage
   const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats"));
+  //logic if the array isn't empty
   if (selectedSeats !== null && selectedSeats.length > 0) {
+    //for each function to set the class of each seat to selected corresponding to index number contained in the array
     seatsEl.forEach((seat, index) => {
       if (selectedSeats.indexOf(index) > -1) {
         seat.classList.add("selected");
       }
     });
   }
-
+  //getting the selected Movie index for the option of the movie
   const selectedMovieIndex = localStorage.getItem("selectedMovieIndex");
   if (selectedMovieIndex !== null) {
+    //setting movie select element on HTML page to the movie index form local storage
     movieSelectEl.selectedIndex = selectedMovieIndex;
   }
 }
